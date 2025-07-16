@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<style type="text/css">
+
+
+		body{
+			margin: 0;
+		}
+
+		*{
+			cursor: url('1.png'), crosshair;
+		}
+		
+		.div1{
+			background-image: url(1.jpg);
+			background-size: 100% 100%;
+			height: 100vh;
+		}
+
+		.div2{
+			height:100px;
+			width:100px;
+			top: 0px;
+			left:-100px;
+			position: absolute;
+			transition: 5s;
+		}
+
+		.duck{
+			height: 100px;
+			width: 100px;
+			background-image:url(1.gif);
+			background-size: 100% 100%;
+			position: absolute;
+			top: 100px;
+			left: -100px;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<div class="box1">
+		<div class="div1">
+			<h1  style="position: absolute; top: 850px; left: 100px; color: white;">поймано: <span class="score">0</span>/10</h1>
+			<h1 style="position: absolute; top: 850px; left: 1500px; color: white;">Время: <span class="time">30</span></h1>
+		</div>
+		<div class="div2"></div>
+		<button class="btn" style="background: lightgreen; position: absolute; height: 40px; width: 120px; top: 870px; left: 890px;">начать игру</button>
+	</div>
+	<div class="box2" style="display: none;">
+		<h1 style="position: absolute; top: 300px; left: 500px">молодец, ты победил!</h1>
+		<button class="btn2" style="background: lightgreen; position: absolute; height: 40px; width: 120px; top: 400px; left: 600px;">играть снова</button>
+		<div style="position: absolute; top: 200px; left: 900px; background: url(2.png); height: 350px; width: 400px; background-size: 100% 100%"></div>
+	</div>
+	<div class="box3" style="display: none;">
+		<h1 style="position: absolute; top: 300px; left: 550px">Ты проиграл!</h1>
+		<button class="btn3" style="background: lightgreen; position: absolute; height: 40px; width: 120px; top: 400px; left: 600px;">играть снова</button>
+		<div style="position: absolute; top: 200px; left: 900px; background: url(3.png); height: 350px; width: 400px; background-size: 100% 100%"></div>
+	</div>
+
+	<script type="text/javascript">
+		
+		let d1 = document.querySelector(".div1")
+		let d2 = document.querySelector(".div2")
+		let score = document.querySelector(".score")
+		let btn = document.querySelector(".btn")
+		let btn2 = document.querySelector(".btn2")
+		let btn3 = document.querySelector(".btn3")
+		let time = document.querySelector(".time")
+		let box1 = document.querySelector(".box1")
+		let box2 = document.querySelector(".box2")
+		let box3 = document.querySelector(".box3")
+		let chislo = 30
+		let ochki = 0
+
+		btn.onclick = function(){
+
+			btn.style.display = "none"
+
+			let Timeout = function(){
+				chislo = chislo - 1
+				time.innerHTML = chislo
+			}
+
+			let myinterval2 = setInterval(Timeout, 1000)
+
+			let stop = function(){
+				if(ochki < 10){
+					alert("ты  проиграл")
+					clearInterval(myinterval2)
+					box1.style.display = "none"
+					box3.style.display = "block"
+				}
+				
+			}
+
+			setTimeout(stop, 30000)
+
+			let fly = function(){
+				let a = document.createElement('div')
+				a.className = "duck"
+				a.style.transition = "4s"			
+					function move(){
+						let move2 = function(){
+							a.style.top = randomTop() + "px"
+							a.style.left = randomLeft() + "px"
+						}
+
+						let inter = setInterval(move2,1000)
+				 
+
+						let randomTop = function(){
+							let n = Math.round(Math.random()*850)
+							return n 
+						}
+
+						let randomLeft = function() {
+							let n = Math.round(Math.random()*1920)+100
+							return n
+						}
+					}
+				setInterval(move, 1000)
+				d2.appendChild(a)
+
+				a.onclick = function(){
+					a.style.display = "none"
+					ochki = ochki + 1
+					score.innerHTML = ochki
+					if (ochki == 10) {
+						alert("молодец, ты победил!")
+						clearInterval(myinterval2)
+						box1.style.display = "none"
+						box2.style.display = "block"
+					}
+				}
+			}
+
+			let myinterval = setInterval(fly, 2000)
+
+		}	
+
+		btn2.onclick = function(){
+			location.reload()
+		}
+
+		btn3.onclick = function(){
+			location.reload()
+		}
+
+	</script>
+
+</body>
+</html>
